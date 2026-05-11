@@ -1,122 +1,47 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { ColorfullMessage } from "./components/ColorfullMessage";
+import { useEffect, useState } from "react";
 
-function App() {
-  const [count, setCount] = useState(0)
+// Componentsの名称はパスカルケースで
+export const App = () => {
+  console.log("------------------------");
+  // Hockは関数コンポーネントの一番上で定義する
+  const [num, setNum] = useState(0);
+  const [isShow, setIsShow] = useState(false);
+  const onClickCountUp = () => {
+    // 関数も渡すことも可能
+    setNum((prev) => prev + 1);
+  };
+
+  // 第二引数の値が変更があった場合に第一引数の関数を実行する
+  useEffect(() => {
+    if (num > 0) {
+      if (num % 3 === 0) {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        isShow || setIsShow(true);
+      } else {
+        isShow && setIsShow(false);
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [num]);
+
+  const onClickToggle = () => {
+    setIsShow(!isShow);
+  };
 
   return (
+    // return時はタグを1つで返却する必要がある
+    //<>フラグメントを設定すれば複数要素を返却が可能
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      {/* cssはオブジェクトとして定義 プロパティは文字列で定義 */}
+      <h1>こんにちは</h1>
+      <ColorfullMessage color="blue">aas</ColorfullMessage>
+      <ColorfullMessage color="green">お元気です(｀･ω･´)</ColorfullMessage>
+      {/* {}でjavascritのコードとして解釈される */}
+      <button onClick={onClickCountUp}>カウントアップ</button>
+      <p>{num}</p>
+      <button onClick={onClickToggle}>on/off</button>
+      {isShow && <p>(｀･ω･´)</p>}
     </>
-  )
-}
-
-export default App
+  );
+};
